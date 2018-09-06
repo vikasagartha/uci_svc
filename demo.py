@@ -46,15 +46,7 @@ def split_features_labels(data_set):
     features = np.array([np.array(x) for x in features])
     labels = np.array(labels)
 
-    #scaler = preprocessing.MinMaxScaler(feature_range=(-2, 9))
-
-    scaled_limit_balance = preprocessing.scale(features[:,0])
-    scaled_age = preprocessing.scale(features[:,4])
-
-    features[:,0] = scaled_limit_balance
-    features[:,4] = scaled_age
-
-    return features, labels
+    return preprocessing.scale(features), labels
 
 if __name__ == '__main__':
     main()
