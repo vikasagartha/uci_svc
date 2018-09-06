@@ -4,7 +4,7 @@ from sklearn import svm, preprocessing
 from sklearn.metrics import accuracy_score
 from read_csv import read
 
-fname = 'UCI_Credit_Card.csv'
+fname = './UCI_Credit_Card.csv'
 
 def main():
     data_set = read(fname)
