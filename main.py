@@ -39,8 +39,6 @@ def lr(train_features, train_labels, test_features, test_labels):
 
 def main():
     data_set = read(fname)
-    print(data_set)
-    return
     features, labels = split_features_labels(data_set)
     train_features, train_labels, test_features, test_labels = split_train_test(features, labels, 0.7)
 
