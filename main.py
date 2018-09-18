@@ -7,40 +7,52 @@ from preprocessing import split_features_labels, split_train_test
 
 fname = './UCI_Credit_Card.csv'
 
-def linebreak():
-    print('\n')
-    print('-' * 100)
-    print('\n')
+results = {
+        'meta': {
+            'samples_trained': 0,
+            'samples_tested': 0
+            },
+        'models': []
+        }
 
 def svm(train_features, train_labels, test_features, test_labels):
     clf = SVC()
-    print('Start training svm...')
     tStart = time()
     clf.fit(train_features, train_labels)
-    print('Training time: ', round(time()-tStart, 3), 's')
-    print('Accuracy: ', accuracy_score(clf.predict(test_features), test_labels))
+
+    results['models'].append({
+        'name': 'svm',
+        'training_time': round(time()-tStart, 3),
+        'accuracy': accuracy_score(clf.predict(test_features), test_labels)
+        })
 
 def lr(train_features, train_labels, test_features, test_labels):
     clf = LogisticRegression(random_state=0)
-    print('Start training logistic regression...')
     tStart = time()
     clf.fit(train_features, train_labels)
-    print('Training time: ', round(time()-tStart, 3), 's')
-    print('Accuracy: ', accuracy_score(clf.predict(test_features), test_labels))
+
+    results['models'].append({
+        'name': 'logistic regression',
+        'training_time': round(time()-tStart, 3),
+        'accuracy': accuracy_score(clf.predict(test_features), test_labels)
+        })
 
 def main():
     data_set = read(fname)
+    print(data_set)
+    return
     features, labels = split_features_labels(data_set)
     train_features, train_labels, test_features, test_labels = split_train_test(features, labels, 0.7)
-    print('training samples: %d\ntesting samples: %d' % (len(train_features), len(test_features)))
 
-    linebreak()
+    results['meta']['samples_trained'] = len(train_features)
+    results['meta']['samples_tested'] = len(test_features)
+
+    print('Models training.....')
+
     svm(train_features, train_labels, test_features, test_labels)
-    linebreak()
-
-    linebreak()
     lr(train_features, train_labels, test_features, test_labels)
-    linebreak()
 
 if __name__ == '__main__':
     main()
+    print('training samples: %d\ntesting samples: %d' % (results['meta']['samples_trained'], results['meta']['samples_tested']))
+    [print(res) for res in results['models']]
